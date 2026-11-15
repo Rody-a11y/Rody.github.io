@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>مذاكرتي الكيوت 🎀</title>
+<style>
+:root{--bg:#faf3f6;--bg2:#f3eff9;--card:#fffcfd;--ink:#4b3a47;--pink:#c9658f;--pink2:#f1dce6;--lav:#9a85cc;--line:#e3c9d6;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#241b29;--bg2:#1e1a2c;--card:#2f2436;--ink:#f1e4ec;--line:#5a4565;--pink2:#43304d}}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;font-family:"Segoe UI",Tahoma,"Noto Sans Arabic",sans-serif;color:var(--ink);background:linear-gradient(160deg,var(--bg),var(--bg2));min-height:100vh}
+main{max-width:760px;margin:auto;padding:14px}
+h1{text-align:center;margin:6px 0 2px;font-size:26px;text-shadow:2px 2px 0 var(--pink2)}
+.sub{text-align:center;margin:0 0 10px;font-size:14px}
+.stats{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
+.stat{background:var(--card);border:2px solid var(--line);border-radius:999px;padding:4px 12px;font-weight:700;font-size:14px;box-shadow:3px 3px 0 var(--pink2)}
+nav{display:flex;gap:14px;overflow-x:auto;padding:6px 4px 16px}
+nav button{flex:none;border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:16px;padding:8px 12px;font:inherit;font-weight:700;cursor:pointer}
+nav button.on{background:linear-gradient(135deg,var(--pink),var(--lav));color:#fff;box-shadow:3px 3px 0 var(--pink2)}
+section{display:none;background:var(--card);border:2px solid var(--line);border-radius:22px;padding:16px;box-shadow:5px 5px 0 var(--pink2)}
+section.on{display:block}
+h2{margin:0 0 10px;font-size:19px}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--bg);border:2px solid var(--pink2);border-radius:12px;padding:8px;max-width:100%}
+textarea{width:100%;min-height:110px}
+.btn{border:0;background:linear-gradient(135deg,var(--pink),var(--lav));color:#fff;font:inherit;font-weight:700;border-radius:14px;padding:9px 14px;cursor:pointer;box-shadow:3px 3px 0 var(--pink2)}
+.btn.s{background:var(--card);color:var(--ink);border:2px solid var(--line)}
+.row{display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin:16px 0}
+.item{display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--bg);border-radius:14px;padding:12px 16px;margin:14px 0}
+.item button+button{margin-inline-start:12px}
+.sp{margin-top:22px}
+.item.done span{text-decoration:line-through;opacity:.55}
+.big{font-size:64px;font-weight:800;text-align:center;letter-spacing:2px;margin:6px 0}
+.chip{display:inline-block;border:2px solid var(--line);border-radius:999px;padding:6px 14px;margin:8px;cursor:pointer;background:var(--bg);font-weight:700}
+.chip.on{background:var(--pink);color:#fff}
+.out{white-space:pre-wrap;background:var(--bg);border-radius:14px;padding:12px;margin-top:10px;line-height:1.8}
+.card3d{background:linear-gradient(135deg,var(--pink2),var(--bg2));border:2px solid var(--line);border-radius:18px;min-height:130px;display:flex;align-items:center;justify-content:center;text-align:center;padding:16px;font-size:18px;font-weight:700;cursor:pointer}
+canvas{display:block;margin:auto;max-width:100%}
+.res{text-align:center;font-size:16px;font-weight:700;min-height:32px;margin-top:12px}
+.muted{opacity:.75;font-size:13px}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(circle at 8% 15%,#f1dce655 0,transparent 28%),radial-gradient(circle at 92% 85%,#dcd2f055 0,transparent 30%)}
+h2{padding-bottom:8px;border-bottom:2px dashed var(--pink2)}
+section{transition:transform .2s,box-shadow .2s}
+.flash{animation:fl 1.2s}@keyframes fl{50%{box-shadow:0 0 0 10px var(--pink)}}
+#dua{position:fixed;inset:0;z-index:20;background:#0006;display:flex;align-items:center;justify-content:center;padding:20px}
+#dua[hidden]{display:none}
+.duaBox{background:var(--card);border:2px solid var(--line);border-radius:24px;padding:28px;max-width:480px;text-align:center}
+.duaT{font-size:24px;line-height:2;margin-bottom:18px;white-space:pre-line}
+#dock{display:none;position:fixed;bottom:0;left:0;right:240px;z-index:6;background:var(--card);border-top:2px solid var(--line);padding:12px 24px;align-items:center;gap:16px;justify-content:center}
+@media (min-width:1000px){
+nav{position:fixed;top:0;right:0;bottom:0;width:240px;flex-direction:column;gap:8px;padding:24px 16px;background:var(--card);border-left:2px solid var(--line);overflow-y:auto;z-index:5}
+nav::before{content:"🎀 مذاكرتي";font-size:24px;font-weight:800;padding:6px 12px 22px}
+nav button{text-align:start;border:0;background:transparent;font-size:16px;padding:12px 14px;border-radius:12px}
+nav button:not(.on):hover{background:var(--bg)}
+nav button.on{box-shadow:none}
+main{max-width:none;margin:0 240px 0 0;padding:28px 40px 120px}
+h1,.sub{display:none}
+.stats{justify-content:flex-start}
+section{max-width:900px;min-height:60vh;padding:26px}
+.big{font-size:84px}
+#dock{display:flex}
+}
+</style>
+</head>
+<body>
+<main>
+<h1>🎀 مذاكرتي الكيوت ✨</h1>
+<p class="sub">خلّصي مذاكرتك واستمتعي ببريكك 💖</p>
+<div class="stats"><span class="stat">⭐ نقاط: <b id="pts">0</b></span><span class="stat">🔥 ستريك: <b id="stk">0</b> يوم</span></div>
+<nav id="nav"></nav>
+
+<section id="plan">
+<h2>📅 جدولي</h2>
+<div class="row">
+<input id="tSub" placeholder="المادة / المهمة" size="14">
+<select id="tDay"><option>السبت</option><option>الأحد</option><option>الاثنين</option><option>الثلاثاء</option><option>الأربعاء</option><option>الخميس</option><option>الجمعة</option></select>
+<input id="tFrom" type="time" value="16:00"><input id="tTo" type="time" value="17:00">
+<button class="btn" id="tAdd">إضافة 🌸</button>
+</div>
+<div id="tList"></div>
+<div class="row"><button class="btn" id="pAI">✨ خلّي الـ AI ينظم جدولي حسب المحاضرات والحصص</button></div>
+<p class="muted">لما تخلصي مهمة علّمي عليها ✅ وخدي نقاط.</p>
+</section>
+
+<section id="lec">
+<h2>🏫 مواعيد المحاضرات</h2>
+<div class="row">
+<input id="lSub" placeholder="اسم المادة" size="14">
+<select id="lDay"><option>السبت</option><option>الأحد</option><option>الاثنين</option><option>الثلاثاء</option><option>الأربعاء</option><option>الخميس</option><option>الجمعة</option></select>
+<input id="lFrom" type="time" value="09:00"><input id="lTo" type="time" value="11:00">
+<select id="lKind"><option>محاضرة</option><option>حصة سنتر</option></select>
+<input id="lPl" placeholder="المكان (اختياري)" size="14">
+<button class="btn" id="lAdd">إضافة 🌸</button>
+</div>
+<div class="row">🚌 وقت المشوار للسنتر: <input id="lTrav" type="number" min="0" step="5" value="30" style="width:80px"> دقيقة</div>
+<div id="lList"></div>
+<p class="muted">المحاضرات بتظهر في تبويب الجدول، والـ AI بيبعد المذاكرة عن أوقاتها.</p>
+</section>
+
+<section id="back">
+<h2>📚 اللي متراكم عليا</h2>
+<p class="muted">✍️ اكتبي اللي متراكم عليكي بالكلام وأنا أفهمه وأضيفه وأنظمه، مثلا: 5 فيزياء و5 عربي</p>
+<textarea id="qIn" style="min-height:70px" placeholder="مثال: 5 فيزياء و5 عربي"></textarea>
+<div class="row"><button class="btn" id="qGo">✨ ضيفي ونظمي وقوليلي أذاكر ازاي</button></div>
+<div class="row">
+<input id="bSub" placeholder="المادة / الدرس المتراكم" size="18">
+<select id="bKind"><option>مذاكرة</option><option>ملخص</option><option>واجب</option><option>مراجعة</option><option>سكشن</option></select>
+<input id="bHrs" type="number" min="0.5" step="0.5" value="2" style="width:80px"> ساعة
+<input id="bDue" type="date">
+<button class="btn" id="bAdd">إضافة 🌸</button>
+</div>
+<div id="bList"></div>
+<div class="row sp">أحب أذاكر من <input id="sF" type="time" value="14:00"> إلى <input id="sT" type="time" value="22:00"></div>
+<div class="row"><button class="btn" id="bAI">✨ خلّي الـ AI ينظم لي كل حاجة</button></div>
+<div class="out" id="bOut" hidden></div>
+</section>
+
+<section id="mood">
+<h2>🎧 مود المذاكرة والـ Shuffle الذكي</h2>
+<p class="muted">اختاري المود اللي تحبيه، أو اضغطي 🔀 Shuffle عشان أختارلك وأفتحلك Spotify فوراً بالمزاج المناسب للتركيز!</p>
+<div id="gList"></div>
+<div class="row">
+  <button class="btn" id="gShuf">🔀 اخلطي لي مود عشوائي</button>
+  <button class="btn" id="gMode">🎯 ادخلي مود المذاكرة فوراً</button>
+</div>
+<div class="res" id="gRes"></div>
+<h2 class="sp">➕ أغانيك أو بلاي ليست مفضلة</h2>
+<div class="row"><input id="gIn" placeholder="اسم أغنية أو رابط Spotify" size="26"><button class="btn" id="gAdd">أضيفي</button></div>
+<div id="gMine"></div>
+</section>
+
+<section id="lost">
+<h2>⏪ اللي ضيّعته</h2>
+<p class="muted">ضيّعتي ساعات؟ قولي كام وأنا أقسّمهم عليكي في أوقات فاضية، بعيد عن المحاضرات والحصص ووقت المشوار.</p>
+<div class="row">ضيّعت <input id="xH" type="number" min="0.5" step="0.5" value="4" style="width:80px"> ساعة <input id="xN" placeholder="المادة (اختياري)" size="16"></div>
+<div class="row">أقصى تعويض في اليوم <input id="xC" type="number" min="0.5" step="0.5" value="2" style="width:80px"> ساعة</div>
+<div class="row">أذاكر من <input id="xF" type="time" value="14:00"> إلى <input id="xT" type="time" value="22:00"></div>
+<div class="row">ابدأي من <select id="xD"></select></div>
+<div class="row"><button class="btn" id="xGo">⏪ قسّميهم لي</button></div>
+<div class="out" id="xOut" hidden></div>
+</section>
+
+<section id="timer">
+<h2>⏰ التايمر وأنظمة المذاكرة</h2>
+<div id="modes"></div>
+<p class="muted" id="mdesc"></p>
+<div class="big" id="clock">25:00</div>
+<div class="res" id="phase">جاهزة؟</div>
+<div class="row" style="justify-content:center">
+<button class="btn" id="go">▶ ابدأي</button>
+<button class="btn s" id="stop">⏹ إنهاء</button>
+<button class="btn s" id="mus">🎵 موسيقى هادية</button>
+</div>
+<div class="row" style="justify-content:center">مدة مخصصة: <input id="cw" type="number" min="1" value="30" style="width:70px"> مذاكرة <input id="cb" type="number" min="1" value="10" style="width:70px"> راحة <button class="btn s" id="cset">تطبيق</button></div>
+</section>
+
+<section id="spin">
+<h2>🎡 عجلة البريك</h2>
+<div class="row"><input id="wIn" placeholder="اكتبي حاجة هتاخديها بريك (مثلا: شوكولاتة 🍫)" size="28"><button class="btn" id="wAdd">أضيفي</button></div>
+<div id="wList"></div>
+<canvas id="wheel" width="300" height="300"></canvas>
+<div class="row" style="justify-content:center"><button class="btn" id="wSpin">لفّي العجلة 🎀</button></div>
+<div class="res" id="wRes"></div>
+</section>
+
+<section id="ai">
+<h2>🤖 مساعدتي الذكية</h2>
+<textarea id="aiIn" placeholder="الصقي هنا الدرس أو الحاجة اللي مش فاهماها..."></textarea>
+<div class="row"><label class="btn s" for="aiFile">📎 ارفعي صورة أو ملف نصي</label><input id="aiFile" type="file" accept="image/*,.txt,.md" multiple hidden><span id="aiFiles"></span></div>
+<p class="muted">الصور وملفات txt و md بس. الـ PDF صوّريه صور أو انسخي النص.</p>
+<div class="row">
+<button class="btn" data-a="sum">لخّصيلي ✍️</button>
+<button class="btn" data-a="exp">اشرحيلي ببساطة 💡</button>
+<button class="btn" data-a="q">اسأليني أسئلة ❓</button>
+<button class="btn" data-a="fc">اعملي Flashcards 🃏</button>
+</div>
+<div class="out" id="aiOut" hidden></div>
+</section>
+
+<section id="cards">
+<h2>🃏 Flashcards</h2>
+<div id="cArea"></div>
+</section>
+
+<section id="exams">
+<h2>🎓 عداد الامتحانات</h2>
+<div class="row"><input id="eN" placeholder="اسم الامتحان" size="14"><input id="eD" type="date"><button class="btn" id="eAdd">إضافة</button></div>
+<div id="eList"></div>
+</section>
+</main>
+<div id="dock"><span id="dClock" style="font-size:26px;font-weight:800">25:00</span><button class="btn" id="dGo">▶</button><button class="btn s" id="dStop">⏹</button><button class="btn s" id="dMus">🎵</button></div>
+<div id="dua" hidden><div class="duaBox"><div class="duaT" id="duaT"></div><button class="btn" id="duaGo">يلا نبدأ 🤍</button></div></div>
+
+<script>
+var S={tasks:[],lec:[],back:[],exams:[],cards:[],wheel:["شوكولاتة 🍫","10 دقايق تيك توك 📱","مسلسل حلقة 📺","قهوة ☕"],pts:0,stk:0,last:""};
+try{var raw=localStorage.getItem("sp1");if(raw)S=Object.assign(S,JSON.parse(raw))}catch(e){}
+function save(){try{localStorage.setItem("sp1",JSON.stringify(S))}catch(e){}}
+function $(i){return document.getElementById(i)}
+function esc(t){var d=document.createElement("div");d.textContent=t;return d.innerHTML}
+function stats(){$("pts").textContent=S.pts;$("stk").textContent=S.stk}
+function reward(n){var t=new Date().toDateString();if(S.last!==t){var y=new Date(Date.now()-864e5).toDateString();S.stk=S.last===y?S.stk+1:1;S.last=t}S.pts+=n;save();stats()}
+
+var tabs=[["plan","📅 جدول"],["lec","🏫 محاضرات"],["back","📚 المتراكم"],["timer","⏰ تايمر"],["mood","🎧 موسيقى"],["lost","⏪ ضيّعته"],["spin","🎡 عجلة"],["ai","🤖 AI"],["cards","🃏 كروت"],["exams","🎓 امتحانات"]];
+tabs.forEach(function(t,i){var b=document.createElement("button");b.textContent=t[1];b.onclick=function(){show(t[0])};b.dataset.t=t[0];$("nav").appendChild(b)});
+function show(id){cur=id;if(document.body.classList.contains("desk")){var s=$(id);if(s&&ready){s.scrollIntoView({behavior:"smooth",block:"center"});s.classList.add("flash");setTimeout(function(){s.classList.remove("flash")},1500)}if(id==="cards")drawCards();return}document.querySelectorAll("section").forEach(function(s){s.classList.toggle("on",s.id===id)});document.querySelectorAll("nav button").forEach(function(b){b.classList.toggle("on",b.dataset.t===id)});if(id==="cards")drawCards();if(id==="spin")drawWheel(rot)}
+
+/* Plan */
+function drawTasks(){var l=$("tList");l.innerHTML="";var days=["السبت","الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة"];
+days.forEach(function(d){var ts=S.tasks.map(function(t,i){return{t:t,i:i}}).concat(S.lec.map(function(t,i){return{t:t,i:i,lec:1}})).filter(function(x){return x.t.day===d}).sort(function(a,b){return a.t.from>b.t.from?1:-1});if(!ts.length)return;
+var h=document.createElement("b");h.textContent="🌷 "+d;l.appendChild(h);
+ts.forEach(function(x){var e=document.createElement("div");e.className="item"+(x.t.done?" done":"");if(x.lec){e.innerHTML="<span>"+(x.t.kind==="حصة سنتر"?"🚌 ":"🏫 ")+esc(x.t.sub)+" · "+x.t.from+" - "+x.t.to+(x.t.place?" · "+esc(x.t.place):"")+"</span>";l.appendChild(e);return}e.innerHTML="<span>"+(x.t.auto?"✨ ":"")+esc(x.t.sub)+" · "+x.t.from+" - "+x.t.to+"</span><span><button class='btn s'>"+(x.t.done?"↩":"✅")+"</button> <button class='btn s'>🗑</button></span>";
+var bs=e.querySelectorAll("button");bs[0].onclick=function(){x.t.done=!x.t.done;if(x.t.done)reward(10);save();drawTasks()};bs[1].onclick=function(){S.tasks.splice(x.i,1);save();drawTasks()};l.appendChild(e)})})}
+$("tAdd").onclick=function(){var s=$("tSub").value.trim();if(!s)return;S.tasks.push({sub:s,day:$("tDay").value,from:$("tFrom").value,to:$("tTo").value,done:false});$("tSub").value="";save();drawTasks()};
+
+/* Timer */
+var modes=[["Pomodoro 🍅",25,5,"25 مذاكرة / 5 راحة"],["50/10",50,10,"50 مذاكرة / 10 راحة"],["52/17",52,17,"52 مذاكرة / 17 راحة"],["Ultradian 90/20",90,20,"90 دقيقة تركيز عميق / 20 راحة"],["45/15",45,15,"45 مذاكرة / 15 راحة"],["Flowtime 🌊",0,0,"اذاكري على حسب تركيزك، والراحة 1/5 من وقتك"],["Time Blocking 🧱",60,15,"قسّمي يومك في تبويب الجدول، وكل بلوك ساعة / 15 راحة"]];
+var mi=0,left=25*60,run=null,phase="idle",flowStart=0,cw=25,cb=5;
+modes.forEach(function(m,i){var c=document.createElement("span");c.className="chip"+(i===0?" on":"");c.textContent=m[0];c.onclick=function(){setMode(i)};$("modes").appendChild(c)});
+function setMode(i){stopT();mi=i;cw=modes[i][1];cb=modes[i][2];document.querySelectorAll("#modes .chip").forEach(function(c,k){c.classList.toggle("on",k===i)});$("mdesc").textContent=modes[i][3];left=cw*60;fmt(i===5?0:left)}
+$("mdesc").textContent=modes[0][3];
+function fmt(s){var m=Math.floor(s/60),r=Math.floor(s%60),t=(m<10?"0":"")+m+":"+(r<10?"0":"")+r;$("clock").textContent=t;$("dClock").textContent=t}
+function beep(){try{var c=new (window.AudioContext||window.webkitAudioContext)(),o=c.createOscillator(),g=c.createGain();o.frequency.value=880;g.gain.value=.15;o.connect(g);g.connect(c.destination);o.start();o.stop(c.currentTime+.5)}catch(e){}}
+function stopT(){clearInterval(run);run=null;phase="idle";$("phase").textContent="جاهزة؟";$("go").textContent="▶ ابدأي"}
+function tick(){if(mi===5&&phase==="work"){fmt((Date.now()-flowStart)/1000);return}left--;fmt(Math.max(left,0));if(left<=0){beep();if(phase==="work"){reward(Math.max(5,Math.round(cw/5)));clearInterval(run);run=null;phase="idle";$("phase").textContent="🎉 خلصتي! روحي لعجلة البريك";$("go").textContent="▶ ابدأي";left=cw*60;fmt(left);S.lastBreak=cb;show("spin")}else{clearInterval(run);run=null;phase="idle";$("phase").textContent="يلا نكمل 💪";$("go").textContent="▶ ابدأي";left=cw*60;fmt(left)}}}
+$("go").onclick=function(){if(run)return;showDua(startT)};
+function startT(){if(run)return;phase="work";$("phase").textContent="📚 ركّزي...";$("go").textContent="شغّال...";flowStart=Date.now();left=cw*60;run=setInterval(tick,1000)};
+$("stop").onclick=function(){if(mi===5&&phase==="work"){var mins=(Date.now()-flowStart)/60000;reward(Math.max(1,Math.round(mins/5)));$("phase").textContent="بريكك: "+Math.max(1,Math.round(mins/5))+" دقيقة 🎉";clearInterval(run);run=null;phase="idle";$("go").textContent="▶ ابدأي";fmt(0);return}stopT();left=cw*60;fmt(left)};
+$("cset").onclick=function(){cw=+$("cw").value||25;cb=+$("cb").value||5;left=cw*60;fmt(left);$("mdesc").textContent="مخصص: "+cw+" / "+cb};
+
+/* Music: soft generated ambience */
+var mc=null,mn=[];
+$("mus").onclick=function(){if(mc){mn.forEach(function(n){try{n.stop()}catch(e){}});mc.close();mc=null;mn=[];$("mus").textContent="🎵 موسيقى هادية";return}
+try{mc=new (window.AudioContext||window.webkitAudioContext)();var g=mc.createGain();g.gain.value=.05;g.connect(mc.destination);
+[261.6,329.6,392,523.2].forEach(function(f,i){var o=mc.createOscillator(),og=mc.createGain(),l=mc.createOscillator(),lg=mc.createGain();o.type="sine";o.frequency.value=f;og.gain.value=.25;l.frequency.value=.07+i*.03;lg.gain.value=.2;l.connect(lg);lg.connect(og.gain);o.connect(og);og.connect(g);o.start();l.start();mn.push(o,l)});
+var b=mc.createBuffer(1,mc.sampleRate*2,mc.sampleRate),d=b.getChannelData(0),last=0;for(var i=0;i<d.length;i++){var w=Math.random()*2-1;last=(last+.02*w)/1.02;d[i]=last*3.5}
+var s=mc.createBufferSource();s.buffer=b;s.loop=true;var ng=mc.createGain();ng.gain.value=.6;s.connect(ng);ng.connect(g);s.start();mn.push(s);$("mus").textContent="⏸ وقف الموسيقى"}catch(e){mc=null}};
+
+/* Wheel */
+var rot=0,spinning=false,cols=["#f2c9d9","#dcd2f0","#f8e1ea","#cfc3e8","#efd0de","#e9e1f5"];
+function drawWheel(a){var c=$("wheel"),x=c.getContext("2d"),n=S.wheel.length;x.clearRect(0,0,300,300);
+if(!n){x.fillStyle="#ff9cc7";x.font="18px sans-serif";x.textAlign="center";x.fillText("أضيفي حاجات للعجلة 🎀",150,150);return}
+var sg=2*Math.PI/n;for(var i=0;i<n;i++){x.beginPath();x.moveTo(150,150);x.arc(150,150,140,a+i*sg,a+(i+1)*sg);x.fillStyle=cols[i%cols.length];x.fill();x.strokeStyle="#fff";x.lineWidth=2;x.stroke();
+x.save();x.translate(150,150);x.rotate(a+(i+.5)*sg);x.fillStyle="#5a2a49";x.font="bold 13px sans-serif";x.textAlign="right";x.fillText(S.wheel[i].slice(0,16),130,4);x.restore()}
+x.beginPath();x.moveTo(150,2);x.lineTo(140,-10);x.lineTo(160,-10);x.fillStyle="#c9658f";x.fill();
+x.fillStyle="#c9658f";x.beginPath();x.moveTo(294,150);x.lineTo(278,140);x.lineTo(278,160);x.fill()}
+function drawWL(){var l=$("wList");l.innerHTML="";S.wheel.forEach(function(w,i){var c=document.createElement("span");c.className="chip";c.textContent=w+" ✕";c.onclick=function(){S.wheel.splice(i,1);save();drawWL();drawWheel(rot)};l.appendChild(c)})}
+$("wAdd").onclick=function(){var v=$("wIn").value.trim();if(!v)return;S.wheel.push(v);$("wIn").value="";save();drawWL();drawWheel(rot)};
+$("wSpin").onclick=function(){if(spinning||!S.wheel.length)return;spinning=true;$("wRes").textContent="";var n=S.wheel.length,tot=Math.PI*2*(5+Math.random()*3)+Math.random()*6.28,st=rot,t0=performance.now(),D=4000;
+function f(t){var p=Math.min((t-t0)/D,1),e=1-Math.pow(1-p,3);rot=st+tot*e;drawWheel(rot);if(p<1)requestAnimationFrame(f);else{spinning=false;var sg=2*Math.PI/n,ang=((-rot)%(2*Math.PI)+2*Math.PI)%(2*Math.PI),idx=Math.floor(ang/sg)%n;$("wRes").textContent="🎉 بريكك: "+S.wheel[idx]}}
+requestAnimationFrame(f)};
+
+/* AI */
+var P={sum:"لخّصي الدرس ده بالعامية المصرية في نقاط قصيرة ومرتبة مع عناوين صغيرة وإيموجي لطيفة:",exp:"اشرح الحاجة دي بالعامية المصرية ببساطة شديدة زي ما بتشرح لصاحبتك، مع مثال من الحياة اليومية، وخطوة خطوة:",q:"اعمل 6 أسئلة مراجعة متنوعة (اختيار من متعدد صح/غلط وسؤال قصير) من النص ده بالعامية المصرية، وبعد كل سؤال الإجابة الصحيحة:"};
+document.querySelectorAll("[data-a]").forEach(function(b){b.onclick=async function(){var txt=$("aiIn").value.trim(),o=$("aiOut");var imgs=[];for(var k=0;k<AF.length;k++){var f=AF[k];if(f.type.indexOf("image/")===0)imgs.push(f);else if(f.name.slice(-4)===".txt"||f.name.slice(-3)===".md"){try{txt+="\n"+await f.text()}catch(e){}}}if(!txt&&!imgs.length)return;if(!txt)txt="(الدرس في الصور المرفقة)";o.hidden=false;o.textContent="لحظة يا قمر... 💭";
+var sm=await claude.use("sample");if(!sm){o.textContent="المساعد الذكي مش متاح هنا. افتحي الصفحة من حسابك على Claude.";return}
+try{var a=b.dataset.a;if(a==="fc"){var arr=await sm.json("من النص ده اعمل من 6 لـ 10 بطاقات مراجعة بالعامية المصرية. رجّعي JSON فقط على شكل مصفوفة من عناصر فيها q (السؤال) و a (الإجابة القصيرة)، من غير أي كلام تاني.\n\n"+txt,{images:imgs});if(Array.isArray(arr)){S.cards=S.cards.concat(arr.filter(function(c){return c&&c.q&&c.a}));save();drawCards();o.textContent="تمام! ضفت "+arr.length+" كروت 🃏 شوفيهم في تبويب كروت."}else o.textContent="مطلعتش كروت، جربي تاني."}
+else{var r=await sm(P[a]+"\n\n"+txt,{images:imgs,onText:function(x){o.textContent=x.text}});o.textContent=r.text}}catch(e){o.textContent="حصلت مشكلة 😢 جربي تاني بعد شوية."}}});
+
+/* Cards */
+var ci=0,flip=false;
+function drawCards(){var a=$("cArea");a.innerHTML="";if(!S.cards.length){a.innerHTML="<p class='muted'>لسه مفيش كروت. روحي لتبويب AI والصقي ملخصك واضغطي Flashcards.</p>";return}
+if(ci>=S.cards.length)ci=0;var c=S.cards[ci];var d=document.createElement("div");d.className="card3d";d.textContent=flip?c.a:c.q;d.onclick=function(){flip=!flip;drawCards()};a.appendChild(d);
+var r=document.createElement("div");r.className="row";r.style.justifyContent="center";r.innerHTML="<button class='btn s'>◀ السابق</button><span>"+(ci+1)+" / "+S.cards.length+"</span><button class='btn s'>التالي ▶</button><button class='btn s'>🗑 امسحي الكل</button>";
+var b=r.querySelectorAll("button");b[0].onclick=function(){ci=(ci-1+S.cards.length)%S.cards.length;flip=false;drawCards()};b[1].onclick=function(){ci=(ci+1)%S.cards.length;flip=false;reward(1);drawCards()};b[2].onclick=function(){S.cards=[];save();drawCards()};a.appendChild(r)}
+
+/* Exams */
+function drawEx(){var l=$("eList");l.innerHTML="";S.exams.map(function(e,i){return{e:e,i:i}}).sort(function(a,b){return a.e.d>b.e.d?1:-1}).forEach(function(x){var n=Math.ceil((new Date(x.e.d)-new Date(new Date().toDateString()))/864e5);var e=document.createElement("div");e.className="item";e.innerHTML="<span>🎓 "+esc(x.e.n)+" · <b>"+(n>0?"باقي "+n+" يوم":n===0?"النهاردة! 💪":"عدّى")+"</b></span><button class='btn s'>🗑</button>";e.querySelector("button").onclick=function(){S.exams.splice(x.i,1);save();drawEx()};l.appendChild(e)})}
+$("eAdd").onclick=function(){var n=$("eN").value.trim(),d=$("eD").value;if(!n||!d)return;S.exams.push({n:n,d:d});$("eN").value="";save();drawEx()};
+
+/* Lectures */
+function drawLec(){var l=$("lList");l.innerHTML="";S.lec.forEach(function(x,i){var e=document.createElement("div");e.className="item";e.innerHTML="<span>"+(x.kind==="حصة سنتر"?"🚌 ":"🏫 ")+esc(x.sub)+" · "+x.day+" "+x.from+" - "+x.to+(x.place?" · "+esc(x.place):"")+"</span><button class='btn s'>🗑</button>";e.querySelector("button").onclick=function(){S.lec.splice(i,1);save();drawLec();drawTasks()};l.appendChild(e)})}
+$("lAdd").onclick=function(){var s=$("lSub").value.trim();if(!s)return;S.lec.push({sub:s,kind:$("lKind").value,day:$("lDay").value,from:$("lFrom").value,to:$("lTo").value,place:$("lPl").value.trim()});$("lSub").value="";$("lPl").value="";save();drawLec();drawTasks()};
+
+/* Backlog */
+function drawBack(){var l=$("bList");l.innerHTML="";S.back.forEach(function(x,i){var e=document.createElement("div");e.className="item"+(x.done?" done":"");e.innerHTML="<span>📚 "+esc(x.sub)+" · "+x.kind+" · "+x.hrs+" ساعة"+(x.due?" · لحد "+x.due:"")+"</span><span><button class='btn s'>"+(x.done?"↩":"✅")+"</button><button class='btn s'>🗑</button></span>";var b=e.querySelectorAll("button");b[0].onclick=function(){x.done=!x.done;if(x.done)reward(10);save();drawBack()};b[1].onclick=function(){S.back.splice(i,1);save();drawBack()};l.appendChild(e)})}
+$("bAdd").onclick=function(){var s=$("bSub").value.trim();if(!s)return;S.back.push({sub:s,kind:$("bKind").value,hrs:+$("bHrs").value||1,due:$("bDue").value,done:false});$("bSub").value="";save();drawBack()};
+$("bAI").onclick=async function(){var o=$("bOut");o.hidden=false;var pend=S.back.filter(function(b){return !b.done});if(!pend.length&&!S.exams.length&&!S.lec.length){o.textContent="اكتبي المتراكم أو الامتحانات الأول 🌸";return}
+o.textContent="بظبطلك الجدول... 💭";var sm=await claude.use("sample");if(!sm){o.textContent="المساعد مش متاح هنا. افتحي الصفحة من حسابك على Claude.";return}
+var data={today:new Date().toISOString().slice(0,10),studyFrom:$("sF").value,studyTo:$("sT").value,lectures:S.lec,travelMin:S.trav==null?30:S.trav,backlog:pend,exams:S.exams,fixedTasks:S.tasks.filter(function(t){return !t.auto})};
+try{var arr=await sm.json("انت منظّمة جداول مذاكرة لطالبة. اعمل جدول أسبوع كامل (السبت للجمعة). القواعد: حصص السنتر (اللي kind بتاعها حصة سنتر) لازم تسيبي قبلها وبعدها وقت مشوار travelMin دقيقة من غير مذاكرة، وبعد الحصة حطي بلوك مراجعة خفيف لمادتها لو فيه وقت، واليوم اللي فيه حصص كتير خلي مذاكرته أخف، ولو مفيش متراكم وزعي بلوكات مراجعة للمواد اللي في المحاضرات. وماتحطش مذاكرة وقت أي محاضرة أو مهمة ثابتة. المذاكرة بس بين studyFrom و studyTo. وزّع المتراكم على الأيام والأقرب تسليم أو امتحان ييجي الأول. البلوكات من 30 لـ 90 دقيقة مع راحة 10 لـ 15 دقيقة بينهم، ومايزيدش عن 6 ساعات في اليوم، وسيبي يوم خفيف. اسم المادة يبقى في sub. أسماء الأيام لازم تكون بالظبط: السبت الأحد الاثنين الثلاثاء الأربعاء الخميس الجمعة. رجّعي JSON فقط: مصفوفة عناصرها {sub,day,from,to} وfrom وto بصيغة HH:MM، من غير أي كلام تاني.\nالبيانات: "+JSON.stringify(data));
+var days=["السبت","الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة"],re=/^\d{2}:\d{2}$/;
+if(!Array.isArray(arr)){o.textContent="مطلعش جدول، جربي تاني.";return}
+var ok=arr.filter(function(x){return x&&x.sub&&days.indexOf(x.day)>-1&&re.test(x.from)&&re.test(x.to)});
+S.tasks=S.tasks.filter(function(t){return !(t.auto&&!t.done)});ok.forEach(function(x){S.tasks.push({sub:String(x.sub),day:x.day,from:x.from,to:x.to,done:false,auto:true})});save();drawTasks();o.textContent="تمام يا قمر! ضفت "+ok.length+" بلوك مذاكرة في جدولك ✨ شوفيهم في تبويب 📅 جدول."}catch(e){o.textContent="حصلت مشكلة 😢 جربي تاني بعد شوية."}};
+
+var cur="plan",ready=0;
+
+/* Dua before studying */
+var DU=["اللَّهُمَّ انْفَعْنِي بِمَا عَلَّمْتَنِي، وَعَلِّمْنِي مَا يَنْفَعُنِي، وَزِدْنِي عِلْمًا","رَبِّ زِدْنِي عِلْمًا","رَبِّ اشْرَحْ لِي صَدْرِي، وَيَسِّرْ لِي أَمْرِي، وَاحْلُلْ عُقْدَةً مِّن لِّسَانِي يَفْقَهُوا قَوْلِي","اللَّهُمَّ لَا سَهْلَ إِلَّا مَا جَعَلْتَهُ سَهْلًا، وَأَنْتَ تَجْعَلُ الْحَزْنَ إِذَا شِئْتَ سَهْلًا"];
+function showDua(cb){$("duaT").textContent="بسم الله 🤍\n"+DU[Math.floor(Math.random()*DU.length)];$("dua").hidden=false;$("duaGo").onclick=function(){$("dua").hidden=true;cb()}}
+
+/* Quick backlog from free text */
+$("qGo").onclick=async function(){var t=$("qIn").value.trim(),o=$("bOut");if(!t)return;o.hidden=false;o.textContent="بفهم كلامك... 💭";var sm=await claude.use("sample");if(!sm){o.textContent="المساعد مش متاح هنا. افتحي الصفحة من حسابك على Claude.";return}
+try{var arr=await sm.json("حوّلي الكلام ده لقايمة مذاكرة متراكمة. رجّعي JSON فقط: مصفوفة عناصرها {sub,count,hrs} حيث sub اسم المادة، count عدد المحاضرات (رقم صحيح)، hrs تقدير ساعات مذاكرة المحاضرة الواحدة (رقم بين 0.5 و3). من غير أي كلام تاني.\nالكلام: "+t);
+var n=0,subs=[];if(Array.isArray(arr))arr.forEach(function(x){if(!x||!x.sub)return;var c=Math.min(Math.round(+x.count)||0,30);if(c<1)return;subs.push(String(x.sub)+" ("+c+")");for(var i=1;i<=c;i++){S.back.push({sub:String(x.sub)+" - محاضرة "+i,kind:"مذاكرة",hrs:Math.min(Math.max(+x.hrs||1.5,0.5),3),due:"",done:false});n++}});
+if(!n){o.textContent="مفهمتش الكلام، جربي تكتبيه كده: 5 فيزياء و5 عربي";return}
+$("qIn").value="";save();drawBack();
+await $("bAI").onclick();
+var base=o.textContent+"\n\n";o.textContent=base+"بحضرلك طريقة المذاكرة... 💭";
+await sm("أنا طالبة عندي متراكم: "+subs.join("، ")+". قوليلي بالعامية المصرية وبشكل مختصر: طريقة مذاكرة مناسبة لكل مادة من دول (خطوات قصيرة)، وأنسب نظام تايمر (بومودورو أو 50/10 أو 52/17) وليه، ونصيحة لحد ما أخلص المتراكم.",{onText:function(x){o.textContent=base+x.text}})}catch(e){o.textContent="حصلت مشكلة 😢 جربي تاني بعد شوية."}};
+
+/* AI uploads */
+var AF=[];
+function drawAF(){var l=$("aiFiles");l.innerHTML="";AF.forEach(function(f,i){var c=document.createElement("span");c.className="chip";c.textContent=f.name.slice(0,24)+" ✕";c.onclick=function(){AF.splice(i,1);drawAF()};l.appendChild(c)})}
+$("aiFile").onchange=function(){for(var i=0;i<this.files.length&&AF.length<5;i++)AF.push(this.files[i]);this.value="";drawAF()};
+
+/* Study mood music (Spotify Shuffle & Moods integration) */
+var G=[
+    ["Lo-fi Study Beats 🌙","lofi study beats"],
+    ["بيانو هادي للتركيز 🎹","calm piano for studying"],
+    ["موسيقى كلاسيكية 🎻","classical music for focus"],
+    ["أصوات الطبيعة 🌿","nature sounds for studying"],
+    ["Deep Focus 🧠","deep focus instrumental"],
+    ["عربي هادي واسترخاء 🌸","arabic chill instrumental"],
+    ["Jazz Study Cafe ☕","jazz study cafe"]
+];
+if(!S.gsel)S.gsel=[0,1,2];
+if(!S.mine)S.mine=[];
+
+function drawG(){
+    var l=$("gList");
+    l.innerHTML="";
+    G.forEach(function(g,i){
+        var c=document.createElement("span");
+        c.className="chip"+(S.gsel.indexOf(i)>-1?" on":"");
+        c.textContent=g[0];
+        c.onclick=function(){
+            var p=S.gsel.indexOf(i);
+            if(p>-1)S.gsel.splice(p,1);
+            else S.gsel.push(i);
+            save();
+            drawG();
+        };
+        l.appendChild(c);
+    });
+
+    var m=$("gMine");
+    m.innerHTML="";
+    S.mine.forEach(function(s,i){
+        var c=document.createElement("span");
+        c.className="chip";
+        c.textContent=s.slice(0,40)+" ✕";
+        c.onclick=function(){
+            S.mine.splice(i,1);
+            save();
+            drawG();
+        };
+        m.appendChild(c);
+    });
+}
+
+function gPick(isShuffle){
+    var pool=S.gsel.map(function(i){return{n:G[i][0],q:G[i][1]}}).concat(S.mine.map(function(s){return{n:s,q:s}}));
+    if(!pool.length){
+        $("gRes").textContent="اختاري نوع واحد على الأقل 🌸";
+        return false;
+    }
+    // اختيار عشوائي (Shuffle)
+    var p=pool[Math.floor(Math.random()*pool.length)];
+    var u=p.q.indexOf("https://open.spotify.com/")===0?p.q:"https://open.spotify.com/search/"+encodeURIComponent(p.q);
+    
+    var a=document.createElement("a");
+    a.href=u;
+    a.target="_blank";
+    a.rel="noopener";
+    a.textContent="🎵 افتحي أغاني "+p.n+" على Spotify";
+    a.style.color="var(--pink)";
+    a.style.fontWeight="bold";
+    a.style.display="inline-block";
+    a.style.padding="8px 14px";
+    a.style.background="var(--bg)";
+    a.style.border="2px solid var(--pink2)";
+    a.style.borderRadius="12px";
+    
+    $("gRes").innerHTML="";
+    $("gRes").appendChild(a);
+    return true;
+}
+
+$("gShuf").onclick=function(){ gPick(true); };
+$("gMode").onclick=function(){ if(gPick(false)) showDua(startT); };
+
+$("gAdd").onclick=function(){
+    var v=$("gIn").value.trim();
+    if(!v)return;
+    S.mine.push(v);
+    $("gIn").value="";
+    save();
+    drawG();
+};
+
+/* Lost time splitter */
+var DN=["الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"];
+function t2m(s){var p=(s||"0:0").split(":");return (+p[0])*60+(+p[1])}
+function m2t(m){var h=Math.floor(m/60),n=m%60;return (h<10?"0":"")+h+":"+(n<10?"0":"")+n}
+$("xD").innerHTML="<option value='0'>النهاردة</option><option value='1'>بكرة</option>";
+$("xGo").onclick=function(){var tot=Math.round((+$("xH").value||0)*60),cap=Math.round((+$("xC").value||2)*60),nm=$("xN").value.trim(),o=$("xOut");o.hidden=false;if(tot<=0){o.textContent="اكتبي عدد الساعات 🌸";return}
+var trav=S.trav==null?30:S.trav,w0=t2m($("xF").value),w1=t2m($("xT").value),rem=tot,res=[],now=new Date(),off=$("xD").value==="1"?1:0;
+for(var d=0;d<7&&rem>0;d++){var day=DN[new Date(now.getTime()+(d+off)*864e5).getDay()],lo=w0;if(d+off===0){var nw=now.getHours()*60+now.getMinutes()+15;if(nw>lo)lo=nw}
+var busy=[];S.lec.forEach(function(x){if(x.day===day){var c=x.kind==="حصة سنتر"?trav:0;busy.push([t2m(x.from)-c,t2m(x.to)+c])}});S.tasks.forEach(function(x){if(x.day===day)busy.push([t2m(x.from),t2m(x.to)])});busy.sort(function(a,b){return a[0]-b[0]});
+var fr=[],cu=lo;busy.join;busy.forEach(function(b){if(b[0]>cu)fr.push([cu,Math.min(b[0],w1)]);cu=Math.max(cu,b[1])});if(cu<w1)fr.push([cu,w1]);
+var dl=Math.min(cap,rem);fr.forEach(function(f){var c=f[0];while(dl>0&&f[1]-c>=25){var len=Math.min(45,dl,f[1]-c);S.tasks.push({sub:"⏪ تعويض"+(nm?" "+nm:""),day:day,from:m2t(c),to:m2t(c+len),done:false,makeup:true});res.push(day+" "+m2t(c)+" - "+m2t(c+len));dl-=len;rem-=len;c+=len+10}})}
+save();drawTasks();
+o.textContent=(res.length?"تمام يا قمر! اتقسّموا على "+res.length+" بلوك (45 دقيقة بالكتير وبينهم راحة 10 دقايق) 💖\n"+res.join("\n")+"\nشوفيهم في تبويب 📅 جدول.":"مالقيتش وقت فاضي، جربي توسّعي ساعات المذاكرة.")+(rem>0?"\nفاضل "+Math.round(rem)+" دقيقة مالقيتش لهم مكان الأسبوع ده، زوّدي أقصى تعويض في اليوم أو ساعات المذاكرة.":"")};
+
+stats();drawTasks();drawLec();drawBack();drawWL();drawEx();drawG();show("plan");$("lTrav").value=S.trav==null?30:S.trav;$("lTrav").onchange=function(){S.trav=+$("lTrav").value||0;save()};$("pAI").onclick=function(){show("back");$("bAI").click()};$("dGo").onclick=function(){$("go").click()};$("dStop").onclick=function(){$("stop").click()};$("dMus").onclick=function(){$("mus").click()};ready=1;
+</script>
+</body>
+</html>
