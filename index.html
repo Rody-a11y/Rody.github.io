@@ -35,7 +35,7 @@ textarea{width:100%;min-height:110px}
 .out{white-space:pre-wrap;background:var(--bg);border-radius:14px;padding:12px;margin-top:10px;line-height:1.8}
 .card3d{background:linear-gradient(135deg,var(--pink2),var(--bg2));border:2px solid var(--line);border-radius:18px;min-height:130px;display:flex;align-items:center;justify-content:center;text-align:center;padding:16px;font-size:18px;font-weight:700;cursor:pointer}
 canvas{display:block;margin:auto;max-width:100%}
-.res{text-align:center;font-size:16px;font-weight:700;min-height:32px;margin-top:12px}
+.res{text-align:center;font-size:16px;font-weight:700;margin-top:12px}
 .muted{opacity:.75;font-size:13px}
 body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(circle at 8% 15%,#f1dce655 0,transparent 28%),radial-gradient(circle at 92% 85%,#dcd2f055 0,transparent 30%)}
 h2{padding-bottom:8px;border-bottom:2px dashed var(--pink2)}
@@ -115,16 +115,22 @@ section{max-width:900px;min-height:60vh;padding:26px}
 </section>
 
 <section id="mood">
-<h2>🎧 مود المذاكرة والـ Shuffle الذكي</h2>
-<p class="muted">اختاري المود اللي تحبيه، أو اضغطي 🔀 Shuffle عشان أختارلك وأفتحلك Spotify فوراً بالمزاج المناسب للتركيز!</p>
+<h2>🎧 مود المذاكرة والـ Spotify الذكي</h2>
+<p class="muted">اختاري المود أو اضغطي 🔀 Shuffle عشان أختارلك مود عشوائي وتشغليه فوراً من جوه الموقع من غير ما تخرجي!</p>
 <div id="gList"></div>
 <div class="row">
-  <button class="btn" id="gShuf">🔀 اخلطي لي مود عشوائي</button>
-  <button class="btn" id="gMode">🎯 ادخلي مود المذاكرة فوراً</button>
+  <button class="btn" id="gShuf">🔀 اخلطي لي مود عشوائي (Shuffle)</button>
+  <button class="btn" id="gMode">🎯 ابدأي المذاكرة بالمود الحالي</button>
+</div>
+
+<!-- مشغل سبوتيفاي المدمج جوه الموقع مباشرة -->
+<div id="spotifyContainer" style="margin-top:20px; border-radius:16px; overflow:hidden; border:2px solid var(--pink2); background:var(--card);">
+  <iframe id="spotifyPlayer" style="border-radius:12px" src="https://open.spotify.com/embed/playlist/37i9dQZF1DWWQRWGO0ExZI?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
 </div>
 <div class="res" id="gRes"></div>
+
 <h2 class="sp">➕ أغانيك أو بلاي ليست مفضلة</h2>
-<div class="row"><input id="gIn" placeholder="اسم أغنية أو رابط Spotify" size="26"><button class="btn" id="gAdd">أضيفي</button></div>
+<div class="row"><input id="gIn" placeholder="رابط سبوتيفاي أو اسم الأغنية" size="26"><button class="btn" id="gAdd">أضيفي وشغلي</button></div>
 <div id="gMine"></div>
 </section>
 
@@ -263,7 +269,8 @@ var r=document.createElement("div");r.className="row";r.style.justifyContent="ce
 var b=r.querySelectorAll("button");b[0].onclick=function(){ci=(ci-1+S.cards.length)%S.cards.length;flip=false;drawCards()};b[1].onclick=function(){ci=(ci+1)%S.cards.length;flip=false;reward(1);drawCards()};b[2].onclick=function(){S.cards=[];save();drawCards()};a.appendChild(r)}
 
 /* Exams */
-function drawEx(){var l=$("eList");l.innerHTML="";S.exams.map(function(e,i){return{e:e,i:i}}).sort(function(a,b){return a.e.d>b.e.d?1:-1}).forEach(function(x){var n=Math.ceil((new Date(x.e.d)-new Date(new Date().toDateString()))/864e5);var e=document.createElement("div");e.className="item";e.innerHTML="<span>🎓 "+esc(x.e.n)+" · <b>"+(n>0?"باقي "+n+" يوم":n===0?"النهاردة! 💪":"عدّى")+"</b></span><button class='btn s'>🗑</button>";e.querySelector("button").onclick=function(){S.exams.splice(x.i,1);save();drawEx()};l.appendChild(e)})}
+function drawEx(){var l=$("eList");l.innerHTML="";S.exams.map(function(e,i){return{e:e,i:i}}).sort(function(a,b){return a.e.d>b.e.d?1:-1}).forEach(function(x){var n=Math.ceil((new Date(x.e.d)-new Date(new Date().toDateString()))/864e5);var e=document.createElement("div");e.className="item";e.innerHTML="<span>🎓 "+esc(x.e.n)+" · <b>"+(n>0?"باقي "+n+" يوم":n===0?"النهاردة! 💪":"عدّى")+"</b></span><button class='btn s'>🗑</button>";e.querySelector("button").onclick=function(){S.exams.splice(x.i,1);save();drawEx()};l.appendChild(e)}
+)}
 $("eAdd").onclick=function(){var n=$("eN").value.trim(),d=$("eD").value;if(!n||!d)return;S.exams.push({n:n,d:d});$("eN").value="";save();drawEx()};
 
 /* Lectures */
@@ -303,15 +310,15 @@ var AF=[];
 function drawAF(){var l=$("aiFiles");l.innerHTML="";AF.forEach(function(f,i){var c=document.createElement("span");c.className="chip";c.textContent=f.name.slice(0,24)+" ✕";c.onclick=function(){AF.splice(i,1);drawAF()};l.appendChild(c)})}
 $("aiFile").onchange=function(){for(var i=0;i<this.files.length&&AF.length<5;i++)AF.push(this.files[i]);this.value="";drawAF()};
 
-/* Study mood music (Spotify Shuffle & Moods integration) */
+/* Study Mood & Spotify Embed / Shuffle */
 var G=[
-    ["Lo-fi Study Beats 🌙","lofi study beats"],
-    ["بيانو هادي للتركيز 🎹","calm piano for studying"],
-    ["موسيقى كلاسيكية 🎻","classical music for focus"],
-    ["أصوات الطبيعة 🌿","nature sounds for studying"],
-    ["Deep Focus 🧠","deep focus instrumental"],
-    ["عربي هادي واسترخاء 🌸","arabic chill instrumental"],
-    ["Jazz Study Cafe ☕","jazz study cafe"]
+    ["Lo-fi Study Beats 🌙","37i9dQZF1DWWQRWGO0ExZI"],
+    ["بيانو هادي للتركيز 🎹","37i9dQZF1DX4sWSpwq3LiO"],
+    ["موسيقى كلاسيكية 🎻","37i9dQZF1DWWEJlSFHDuj0"],
+    ["أصوات الطبيعة 🌿","37i9dQZF1DX4PP3N2K0St6"],
+    ["Deep Focus 🧠","37i9dQZF1DX8Uebhn9wzrS"],
+    ["عربي هادي واسترخاء 🌸","37i9dQZF1DX4WStBpWOcqN"],
+    ["Jazz Study Cafe ☕","37i9dQZF1DXbITWG1ZJKYt"]
 ];
 if(!S.gsel)S.gsel=[0,1,2];
 if(!S.mine)S.mine=[];
@@ -338,7 +345,7 @@ function drawG(){
     S.mine.forEach(function(s,i){
         var c=document.createElement("span");
         c.className="chip";
-        c.textContent=s.slice(0,40)+" ✕";
+        c.textContent=s.name.slice(0,40)+" ✕";
         c.onclick=function(){
             S.mine.splice(i,1);
             save();
@@ -348,44 +355,52 @@ function drawG(){
     });
 }
 
+function updatePlayer(spotifyIdOrUrl, title){
+    var player = $("spotifyPlayer");
+    var embedUrl = "";
+    
+    if(spotifyIdOrUrl.includes("open.spotify.com")){
+        // تحويل روابط سبوتيفاي العادية إلى روابط Embed مدمجة تشغل الصوت مباشرة جوه الموقع
+        var parts = spotifyIdOrUrl.split("/");
+        var id = parts[parts.length - 1].split("?")[0];
+        var type = parts[parts.length - 2]; // track, playlist, album
+        if(type === "track" || type === "playlist" || type === "album"){
+            embedUrl = "https://open.spotify.com/embed/" + type + "/" + id + "?utm_source=generator&theme=0";
+        } else {
+            embedUrl = "https://open.spotify.com/embed/playlist/37i9dQZF1DWWQRWGO0ExZI?utm_source=generator&theme=0";
+        }
+    } else {
+        // لو هو Spotify Playlist ID جاهز
+        embedUrl = "https://open.spotify.com/embed/playlist/" + spotifyIdOrUrl + "?utm_source=generator&theme=0";
+    }
+    
+    player.src = embedUrl;
+    $("gRes").textContent = "🎵 جاري تشغيل: " + (title || "موسيقى المذاكرة") + " 🎧";
+}
+
 function gPick(isShuffle){
-    var pool=S.gsel.map(function(i){return{n:G[i][0],q:G[i][1]}}).concat(S.mine.map(function(s){return{n:s,q:s}}));
+    var pool = S.gsel.map(function(i){ return {n: G[i][0], id: G[i][1]}; }).concat(S.mine);
     if(!pool.length){
-        $("gRes").textContent="اختاري نوع واحد على الأقل 🌸";
+        $("gRes").textContent = "اختاري مود واحد على الأقل 🌸";
         return false;
     }
     // اختيار عشوائي (Shuffle)
-    var p=pool[Math.floor(Math.random()*pool.length)];
-    var u=p.q.indexOf("https://open.spotify.com/")===0?p.q:"https://open.spotify.com/search/"+encodeURIComponent(p.q);
-    
-    var a=document.createElement("a");
-    a.href=u;
-    a.target="_blank";
-    a.rel="noopener";
-    a.textContent="🎵 افتحي أغاني "+p.n+" على Spotify";
-    a.style.color="var(--pink)";
-    a.style.fontWeight="bold";
-    a.style.display="inline-block";
-    a.style.padding="8px 14px";
-    a.style.background="var(--bg)";
-    a.style.border="2px solid var(--pink2)";
-    a.style.borderRadius="12px";
-    
-    $("gRes").innerHTML="";
-    $("gRes").appendChild(a);
+    var p = pool[Math.floor(Math.random() * pool.length)];
+    updatePlayer(p.id || p.url, p.n || p.name);
     return true;
 }
 
-$("gShuf").onclick=function(){ gPick(true); };
-$("gMode").onclick=function(){ if(gPick(false)) showDua(startT); };
+$("gShuf").onclick = function(){ gPick(true); };
+$("gMode").onclick = function(){ if(gPick(false)) showDua(startT); };
 
-$("gAdd").onclick=function(){
-    var v=$("gIn").value.trim();
-    if(!v)return;
-    S.mine.push(v);
-    $("gIn").value="";
+$("gAdd").onclick = function(){
+    var v = $("gIn").value.trim();
+    if(!v) return;
+    S.mine.push({name: "مفضلة جديدة", url: v});
+    $("gIn").value = "";
     save();
     drawG();
+    updatePlayer(v, "الأغنية الجديدة");
 };
 
 /* Lost time splitter */
@@ -397,7 +412,7 @@ $("xGo").onclick=function(){var tot=Math.round((+$("xH").value||0)*60),cap=Math.
 var trav=S.trav==null?30:S.trav,w0=t2m($("xF").value),w1=t2m($("xT").value),rem=tot,res=[],now=new Date(),off=$("xD").value==="1"?1:0;
 for(var d=0;d<7&&rem>0;d++){var day=DN[new Date(now.getTime()+(d+off)*864e5).getDay()],lo=w0;if(d+off===0){var nw=now.getHours()*60+now.getMinutes()+15;if(nw>lo)lo=nw}
 var busy=[];S.lec.forEach(function(x){if(x.day===day){var c=x.kind==="حصة سنتر"?trav:0;busy.push([t2m(x.from)-c,t2m(x.to)+c])}});S.tasks.forEach(function(x){if(x.day===day)busy.push([t2m(x.from),t2m(x.to)])});busy.sort(function(a,b){return a[0]-b[0]});
-var fr=[],cu=lo;busy.join;busy.forEach(function(b){if(b[0]>cu)fr.push([cu,Math.min(b[0],w1)]);cu=Math.max(cu,b[1])});if(cu<w1)fr.push([cu,w1]);
+var fr=[],cu=lo;busy.forEach(function(b){if(b[0]>cu)fr.push([cu,Math.min(b[0],w1)]);cu=Math.max(cu,b[1])});if(cu<w1)fr.push([cu,w1]);
 var dl=Math.min(cap,rem);fr.forEach(function(f){var c=f[0];while(dl>0&&f[1]-c>=25){var len=Math.min(45,dl,f[1]-c);S.tasks.push({sub:"⏪ تعويض"+(nm?" "+nm:""),day:day,from:m2t(c),to:m2t(c+len),done:false,makeup:true});res.push(day+" "+m2t(c)+" - "+m2t(c+len));dl-=len;rem-=len;c+=len+10}})}
 save();drawTasks();
 o.textContent=(res.length?"تمام يا قمر! اتقسّموا على "+res.length+" بلوك (45 دقيقة بالكتير وبينهم راحة 10 دقايق) 💖\n"+res.join("\n")+"\nشوفيهم في تبويب 📅 جدول.":"مالقيتش وقت فاضي، جربي توسّعي ساعات المذاكرة.")+(rem>0?"\nفاضل "+Math.round(rem)+" دقيقة مالقيتش لهم مكان الأسبوع ده، زوّدي أقصى تعويض في اليوم أو ساعات المذاكرة.":"")};
